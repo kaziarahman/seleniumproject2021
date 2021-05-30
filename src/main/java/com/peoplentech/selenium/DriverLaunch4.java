@@ -35,15 +35,15 @@ public class DriverLaunch4 {
         driver.quit();
     }
 
-    public void clickOnLinkText(String lnkTxt) {
+    public static void clickOnLinkText(String lnkTxt) {
         driver.findElement(By.linkText(lnkTxt)).click();
     }
 
-    public void clickOnXpath(String xpath) {
+    public static void clickOnXpath(String xpath) {
         driver.findElement(By.xpath(xpath)).click();
     }
 
-    public void typeOnXpath(String xpath, String data) {
+    public static void typeOnXpath(String xpath, String data) {
         driver.findElement(By.xpath(xpath)).sendKeys(data);
     }
 
@@ -83,7 +83,7 @@ public class DriverLaunch4 {
     @Test
     public void validatedUserCanSearchForItemsInEbay() {
         setupBrowser("firefox", "https://www.ebay.com");
-        waitFor(2);
+        waitFor(5);
         typeOnXpath("//input[@id='gh-ac']", "Java Books");
         clickOnId("gh-btn");
         closeBrowser();
