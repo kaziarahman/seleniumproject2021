@@ -2,14 +2,17 @@ package com.peoplentech.selenium;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class EbayTest extends TestBase {
+import java.util.List;
 
+
+public class EbayTest extends TestBase {
     private static final Logger logger = Logger.getLogger(EbayTest.class);
 
 
@@ -25,8 +28,6 @@ public class EbayTest extends TestBase {
 
 
         WebElement ebayLogo = driver.findElement(By.id("gh-l-h1"));
-        // boolean result = ebayLogo.isDisplayed();
-        // Assert.assertEquals(result,true,"result is not true");
         Assert.assertTrue(ebayLogo.isDisplayed(), "result is not true");
         logger.info("ebay logo has been displayed");
 
@@ -56,7 +57,6 @@ public class EbayTest extends TestBase {
         setupBrowser("chrome", "https://www.ebay.com");
         logger.info("browser opened and ebay.com launched");
 
-
         WebElement categoryDropdown = driver.findElement(By.id("gh-cat"));
         Select select = new Select(categoryDropdown);
         select.selectByVisibleText("Art");
@@ -64,19 +64,66 @@ public class EbayTest extends TestBase {
         closeBrowser();
     }
 
+
     @Test
-    public void validateUserBeingAbleToChooseOptionFromMouseHover() {
+    public void validateUserBeingAbleToHandleDropDownOptions() {
         setupBrowser("chrome", "https://www.ebay.com");
-        logger.info("browser opened and ebay.com launched");
 
-        WebElement Motors = driver.findElement(By.linkText("Motors"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(Motors).build().perform();
+        List<WebElement> dropdownList = driver.findElements(By.xpath("//select[@id='gh-cat']/option"));
 
-        driver.findElement(By.linkText("Classics")).click();
 
+        System.out.println(dropdownList.size());
+
+        for (WebElement webElement : dropdownList) {
+            System.out.println(webElement.getText());
+            // System.out.println(dropdownList.get(i).getAttribute("value"));
+        }
 
         closeBrowser();
     }
+
+
+    @Test
+    public void validateUserBeingAbleToChooseOptionFromMouseHover() {
+        setupBrowser("chrome", "https://www.ebay.com");
+
+        WebElement motors = driver.findElement(By.linkText("Motors"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(motors).build().perform();
+        waitFor(3);
+        driver.findElement(By.linkText("Classics")).click();
+
+        closeBrowser();
+    }
+
+
+    @Test
+    public void userShouldBeAbleToScrollDown() {
+        setupBrowser("chrome", "https://www.ebay.com");
+
+        waitFor(2);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0,1000)");
+        waitFor(2);
+
+        closeBrowser();
+    }
+
+
+    @Test
+    public void userShouldBeAbleToScrollDownToElement() {
+        setupBrowser("chrome", "https://www.ebay.com");
+        logger.info("browser opened and ebay.com launched");
+
+        WebElement element = driver.findElement(By.linkText("About eBay"));
+
+        waitFor(2);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        waitFor(2);
+
+        closeBrowser();
+    }
+
 
 }

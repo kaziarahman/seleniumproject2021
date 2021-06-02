@@ -13,10 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 public class TestBase {
 
-    public static WebDriver driver;
-
     private static final Logger logger = Logger.getLogger(TestBase.class);
-
+    public static WebDriver driver;
 
     public static void setupBrowser(String browserName, String url) {
         if (browserName.equalsIgnoreCase("chrome")) {
@@ -28,6 +26,7 @@ public class TestBase {
         }
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        driver.manage().window().maximize();
 
         driver.get(url);
     }
