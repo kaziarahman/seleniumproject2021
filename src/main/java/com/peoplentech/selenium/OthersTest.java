@@ -7,8 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.Test;
 
-public class OthersTest extends TestBase {
-    private static final Logger logger = Logger.getLogger(EbayTest.class);
+public class OthersTest extends TestBaseOld {
+    private static final Logger logger = Logger.getLogger(EbayTestOld.class);
 
 
     @Test
@@ -45,4 +45,24 @@ public class OthersTest extends TestBase {
         closeBrowser();
     }
 
+
+    @Test
+    public void userShouldBeAbleToHandlePopup() {
+        setupBrowser("chrome", " http://demo.guru99.com/test/delete_customer.php");
+        driver.findElement(By.xpath("//input[@name='cusid']")).sendKeys("1");
+        driver.findElement(By.xpath("//input[@name='submit']")).click();
+        waitFor(4);
+
+        //driver.switchTo().alert().dismiss();
+
+        String dataFromAlert = driver.switchTo().alert().getText();
+        System.out.println(dataFromAlert);
+
+        driver.switchTo().alert().accept();
+        waitFor(4);
+        driver.switchTo().alert().accept();
+
+        closeBrowser();
+
+    }
 }
